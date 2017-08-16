@@ -28,4 +28,4 @@ ruletarget(art6,dalicc_irrevocable) .
 ruletarget(art7,dalicc_perpetual) .
 
 ruletarget(art8,odrl_ensureExclusivity) .
-
+asd(df) .
