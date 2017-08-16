@@ -1,12 +1,9 @@
-policy(reducedBSD3, br1) .
-policy(reducedBSD3, br2) .
-policy(reducedBSD3, br3) .
+policy(reducedBSD3) .
 
-rule(br1, permission, brt1) .   
-rule(br2, duty, brt2) .    
-rule(br3, prohibition, brt3) .    
+rule(reducedBSD3, permission, all, odrl_reproduce, all) .
+rule(reducedBSD3, duty, all, cc_Notice, all) .
+rule(reducedBSD3, prohibition, all, dalicc_promote, all) .
 
-ruletarget(brt1,odrl_reproduce) .
-ruletarget(brt2,cc_Notice) .
-ruletarget(brt3,dalicc_promote) .
-
+action(odrl_reproduce) . 
+action(cc_Notice) . 
+action(dalicc_promote) . 
