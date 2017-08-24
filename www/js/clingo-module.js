@@ -1,10 +1,13 @@
 var Module;
 var outputElement = document.getElementById('output');
 var runButton = document.getElementById('run');
+var searchButton = document.getElementById('searchLicense');
 var input = ace.edit("input");
+var inputSearch = ace.edit("query");
 var ex = document.getElementById("examples");
 var output = "";
 var odrl_core = "";
+var license_search = "";
 
 input.setTheme("ace/theme/textmate");
 input.$blockScrolling = Infinity;
@@ -15,6 +18,17 @@ input.setOptions({
   mode: "ace/mode/gringo",
   autoScrollEditorIntoView: true
 });
+
+inputSearch.setTheme("ace/theme/textmate");
+inputSearch.$blockScrolling = Infinity;
+inputSearch.setOptions({
+  useSoftTabs: true,
+  tabSize: 2,
+  maxLines: Infinity,
+  mode: "ace/mode/gringo",
+  autoScrollEditorIntoView: true
+});
+
 
 function example() {
 	if(ex.value.indexOf("&") == -1) {
@@ -27,7 +41,8 @@ function example() {
 		}
 		console.log(examples[0])
 	}
-	load_odrl();
+  load_odrl();
+	load_search();
 }
 
 function load_odrl() {
@@ -40,6 +55,18 @@ function load_odrl() {
   request.open("GET", "odrl_core.lp", true);
   request.send();
 }
+
+function load_search() {
+  var request = new XMLHttpRequest();
+  request.onreadystatechange = function() {
+    if (request.readyState == 4 && request.status == 200) {
+      license_search += request.responseText;
+    }
+  }
+  request.open("GET", "license_search.lp", true);
+  request.send();
+}
+
 
 
 function load_example(path) {
@@ -102,6 +129,48 @@ sol++;
  var menulistitem = html;
     document.getElementById("menu-content").innerHTML = menulistitem;
 	  $( ".accordion" ).accordion({
+  collapsible: true
+});
+
+  updateOutput();
+}
+
+function searchLicense() {
+
+options = "";
+  if (document.getElementById("stats").checked) { options += " --stats"; }
+  if (document.getElementById("project").checked) { options += " --project"; }
+  var index = document.getElementById("mode").selectedIndex;
+  if (index >= 0) {
+    if (index == 1) {
+      options += " --opt-mode=optN --enum-mode=brave";
+    }
+    else if (index == 2) {
+      options += " --opt-mode=optN --enum-mode=cautious";
+    }
+    else if (index == 3) {
+      options += " --opt-mode=optN 0";
+    }
+  }
+  //options += " --help=3";
+  output = "";
+  Module.ccall('run', 'number', ['string', 'string'],[input.getValue()+" "+inputSearch.getValue()+" "+license_search, options])
+
+  var regEx = new RegExp('(?:Answer: .*\n)(.+)\n','gm')
+  var html = '';
+  var sol = 1;
+  while (result = regEx.exec(output)) {
+   var rules = result[1].split(" ");
+    html += '<div class="accordion"><h3>Solution '+sol+'</h3><div><ul data-role="listview" data-inset="true">';
+  rules.forEach(function(entry) {
+    html += '<li class="row">'+entry+'</li>';
+  });
+html += '</ul></div></div>';
+sol++;
+}
+ var menulistitem = html;
+    document.getElementById("menu-content").innerHTML = menulistitem;
+    $( ".accordion" ).accordion({
   collapsible: true
 });
 

@@ -46,9 +46,7 @@
   <li>
     <select id="examples" onchange="example()">
         <optgroup label="Simple Examples">
-          <option value="clingo/run/examples/graph-coloring.lp">Graph Coloring</option>
-          <option value="clingo/run/examples/n-queens.lp">n-Queens</option>
-		  <option value="clingo/run/examples/ccby.lp">CC-BY</option>
+          <option value="clingo/run/examples/ccby.lp">CC-BY</option>
           <option value="clingo/run/examples/bsd.lp">BSD 3.0</option>
           <option value="clingo/run/examples/apache.lp">Apache</option>
         </optgroup>
@@ -63,13 +61,21 @@
  </ul>
 
  <pre id="input">
-% instance
-motive(harry).
-motive(sally).
-guilty(harry).
+policy(reducedCCBY) .
 
-% encoding
-innocent(Suspect) :- motive(Suspect), not guilty(Suspect).</pre>
+rule(reducedCCBY, permission, all, odrl_present, all) .
+rule(reducedCCBY, duty, all, cc_Notice, all) .
+rule(reducedCCBY, duty, all, cc_SourceCode, all) .
+rule(reducedCCBY, duty, all, dalicc_irrevocable, all) .
+rule(reducedCCBY, prohibition, all, dalicc_sublicense, all) .
+rule(reducedCCBY, prohibition, all, odrl_ensureExclusivity, all) .
+
+action(dalicc_sublicense) . 
+action(cc_SourceCode) . 
+action(odrl_present) . 
+action(cc_Notice) . 
+action(dalicc_irrevocable) . 
+action(odrl_ensureExclusivity) . </pre>
 
  <ul class="hlist">
   <li><b>Configuration:</b></li>
@@ -86,6 +92,11 @@ innocent(Suspect) :- motive(Suspect), not guilty(Suspect).</pre>
  </ul>
 
  <input type="button" id="run" value="&#x25ba; Run!" onclick="solve()" disabled/>
+
+  <pre id="query">
+query(duty, all, cc_Notice, all) .
+ </pre>
+  <input type="button" id="searchLicense" value="&#x25ba; Search!" onclick="searchLicense()" />
 
  <pre id="output" class="code"></pre>
 

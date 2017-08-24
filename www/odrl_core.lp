@@ -26,10 +26,11 @@ sameAs(copy,reproduce) .
 %% policy(p1) .
 
 %% rule(p1,permission,all,print,all) .
-%% %% rule(p1,prohibition,all,present,all) .
+%% rule(p1,prohibition,all,present,all) .
 %% rule(p1,permission,all,share,all) .
 %% rule(p1,prohibition,all,distribute,all) .
-%% rule(p1,permission,all,download,all) .
+%% rule(p1,permission,all,download,all,satisfied) .
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action Relations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -50,10 +51,10 @@ sameAs(X,X) :- action(X) .
 
 rule(P, T, Pa, Y, As) :- rule(P, T, Pa, X, As), sameAs(X,Y) .
 rule(P, T, Pa, Y, As) :- rule(P, T, Pa, X, As), includedIn(Y,X) .
-
-
+%rule(P, T, Pa, Ac, As) :- rule(P, T, Pa, Ac, As, satisfied) .
 
 response(T, Pa, Ac, As) :- rule(_, T, Pa, Ac, As) .
+
 
 conflict(response(T1, Pa, Y, As), response(T2, Pa, X, As))  :- response(T1, Pa, Y, As), response(T2, Pa, X, As), T1 != T2, includedIn(Y,X) . 
 
