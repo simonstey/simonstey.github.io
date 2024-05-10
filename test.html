@@ -1,0 +1,58 @@
+<html>
+    <head>
+         <title>CitedBy Test/Demo Tool</title>
+                <!-- SECTION 1 : Initial configuration -->
+                    <link REL="stylesheet" TYPE="text/css" href="http://searchapi.scopus.com/stylesheets/css_scapi_list_hilight.css"/>
+                        <script type="text/javascript" src="http://searchapi.scopus.com/scripts/CitedBySearch.jsp"></script>
+                        <script type="text/javascript">
+                            <!-- SECTION 2 : Call back -->
+                               callback = function(){ document.scapiForm.searchButton.disabled = false; }
+                            <!-- SECTION 3 : Running Search -->
+                               runSearch = function(){
+                               document.scapiForm.searchButton.disabled = true;
+                               var varSearchObj = new searchObj();
+                               varSearchObj.setEid(document.scapiForm.eid.value);
+                               varSearchObj.setDoi(document.scapiForm.doi.value);
+                               varSearchObj.setScp(document.scapiForm.scp.value);
+                               varSearchObj.setPii(document.scapiForm.pii.value);
+                               varSearchObj.setIssn(document.scapiForm.issn.value);
+                               varSearchObj.setIsbn(document.scapiForm.isbn.value);
+                               varSearchObj.setVol(document.scapiForm.vol.value);
+                               varSearchObj.setIssue(document.scapiForm.issue.value);
+                               varSearchObj.setTitle(document.scapiForm.title.value);
+                               varSearchObj.setFirstPg(document.scapiForm.firstpg.value);
+                               varSearchObj.setArtNo(document.scapiForm.artno.value);
+                               scapi.setDeveloperID("b190f605327f0ef328afd9e13e9b9f08");
+                               scapi.search(varSearchObj);
+                               }
+                        </script>
+                <!-- SECTION 4 : Setting defaults -->
+                        <script type="text/javascript">
+                            
+                         </script>
+     </head>
+<!-- SECTION 5 : Rendering page -->
+     <body>
+	 
+	 <a href="http://api.elsevier.com/content/search/index:SCOPUS?query=title%28%22Real-Time%20Access%20Control%20and%20Reservation%20on%20B-Tree%20Indexed%20Data%22%29&sort=coverDate&apiKey=b190f605327f0ef328afd9e13e9b9f08&view=complete">asd</a>
+         <h2>Search Form:</h2>
+                  <form name="scapiForm" onsubmit="return false">
+                      eid:<input type="text" name="eid"/><br>
+                      doi:<input type="text" name="doi"/><br>
+                      scp:<input type="text" name="scp"/><br>
+                      pii:<input type="text" name="pii"/><br>
+                      issn:<input type="text" name="issn"/><br>
+                      isbn:<input type="text" name="isbn"/><br>
+                      vol:<input type="text" name="vol"/><br>
+                      issue:<input type="text" name="issue"/><br>
+                      title:<input type="text" name="title"/><br>
+                      firstpage:<input type="text" name="firstpg"/><br>
+                      artno:<input type="text" name="artno"/><br>
+                      <button onClick="runSearch()" name="searchButton"/>SEARCH</button>
+                  </form>
+         <h2>Returned Image </h2>
+                  <div id="citedBy">
+                      None.
+                  </div>
+     </body>
+</html>
